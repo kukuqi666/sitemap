@@ -64,3 +64,14 @@
 
 [访问入口](https://kukuqi666.github.io/sitemap/xpcheck)
 
+## 切水果
+
+[访问入口](https://kukuqi666.github.io/sitemap/cut-fruit)
+
+## 坦克大战
+
+[访问入口](https://kukuqi666.github.io/sitemap/tank-battle)
+
+## 街头霸王
+
+[访问入口](https://kukuqi666.github.io/sitemap/street-fighter)
