@@ -1,3 +1,7 @@
+## H5小游戏
+
+[访问入口](https://kukuqi666.github.io/sitemap/games)
+
 ## 文案代码大全
 
 [访问入口](https://kukuqi666.github.io/sitemap/Copywriting)
