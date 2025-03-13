@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title> 3D立体动画照片旋转</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+</head>
+<body>
+    <div class="background"></div>
+    <div class="container">
+    <div class="top-text">3D旋转相册</div>
+        <div class="wrap">
+            <div class="cube">
+                <!-- 前面图片 -->
+                <div class="out_front">
+                    <img src="img/img1.jpg" class="pic">
+                </div>
+                <!-- 后面图片 -->
+                <div class="out_back">
+                    <img src="img/img2.jpg" class="pic">
+                </div>
+                <!-- 左面图片 -->
+                <div class="out_left">
+                    <img src="img/img3.jpg" class="pic">
+                </div>
+                <!-- 右面图片 -->
+                <div class="out_right">
+                    <img src="img/img4.jpg" class="pic">
+                </div>
+                <!-- 上面图片 -->
+                <div class="out_top">
+                    <img src="img/img5.jpg" class="pic">
+                </div>
+                <!-- 下面图片 -->
+                <div class="out_bottom">
+                    <img src="img/img6.jpg" class="pic">
+                </div>
+                <!-- 小立方体 -->
+                <span class="in_front">
+                    <img src="img/img7.jpg" class="pic" style="width: 100px;height: 100px">
+                </span>
+                <span class="in_back">
+                    <img src="img/img8.jpg" class="pic" style="width: 100px;height: 100px">
+                </span>
+                <span class="in_left">
+                    <img src="img/img9.jpg" class="pic" style="width: 100px;height: 100px">
+                </span>
+                <span class="in_right">
+                    <img src="img/img10.jpg" class="pic" style="width: 100px;height: 100px">
+                </span>
+                <span class="in_top">
+                    <img src="img/img11.jpg" class="pic" style="width: 100px;height: 100px">
+                </span>
+                <span class="in_bottom">
+                    <img src="img/img12.jpg" class="pic" style="width: 100px;height: 100px">
+                </span>
+            </div>
+        </div>
+    </div>
+    <audio id="background-music" autoplay loop>
+        <source src="music/background.mp3" type="audio/mpeg">
+        您的浏览器不支持 audio 元素。
+    </audio>
+    <script src="js/script.js"></script>
+</body>
+</html>

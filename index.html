@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>资源导航</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        nav {
+            background-color: #007bff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        nav .logo {
+            font-size: 24px;
+            color: #fff;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+        nav .search {
+            display: flex;
+            align-items: center;
+        }
+        nav .search input {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-right: 10px;
+        }
+        nav .search button {
+            padding: 5px 10px;
+            background-color: #fff;
+            color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 100px auto 20px;
+            padding: 0 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .card {
+            background-color: #fff;
+            width: 300px;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-10px);
+        }
+        .card-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .card-description {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #777;
+        }
+        .card-link {
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .card-link:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">资源导航</div>
+        <div class="search">
+            <input type="text" id="searchInput" placeholder="搜索资源...">
+            <button onclick="search()">搜索</button>
+        </div>
+    </nav>
+
+    <div class="container"></div>
+
+    <footer>
+        © 2024 资源导航 - 保留所有权利
+    </footer>
+
+    <script>
+        const resources = [
+	    {
+                title: "H5小游戏合集",
+                description: "一个很全面的小游戏合集",
+                link: "https://kukuqi666.github.io/sitemap/games"
+            },
+            {
+                title: "文案代码大全",
+                description: "最全的文案代码资源库",
+                link: "https://kukuqi666.github.io/sitemap/Copywriting"
+            },
+            {
+                title: "QQ浏览器工具",
+                description: "便捷的QQ浏览器工具",
+                link: "https://kukuqi666.github.io/sitemap/qqbrowsertool"
+            },
+            {
+                title: "Ai导航栏",
+                description: "一个很全面的工具集合",
+                link: "https://kukuqi666.github.io/sitemap/aisearch"
+            },
+            {
+                title: "饭太硬",
+                description: "全网视频解析入口",
+                link: "https://www.饭太硬.com/"
+            },
+            {
+                title: "全能接口解密",
+                description: "解密加密的视频源工具",
+                link: "http://www.饭太硬.com/jm/"
+            },
+            {
+                title: "Github文件加速下载",
+                description: "国内可以快速下载Github仓库里的文件",
+                link: "https://gh.xxooo.cf/"
+            },
+	    {
+                title: "DownGit",
+                description: "创建GitHub资源下载链接 ",
+                link: "https://kukuqi666.github.io/sitemap/DownGit"
+            },
+	    {
+                title: "gitzip",
+                description: "github存储库的子文件夹/子目录制作为zip并下载。",
+                link: "https://kukuqi666.github.io/sitemap/gitzip"
+            },
+	    {
+                title: "github-directory-downloader",
+                description: "GitHub 特定文件夹或文件下载工具",
+                link: "https://kukuqi666.github.io/sitemap/github-directory-downloader"
+            },
+	    {
+                title: "webvm",
+                description: "HTML5/WebAssembly中完全在客户端运行的无服务器虚拟环境",
+                link: "https://kukuqi666.github.io/sitemap/webvm"
+            },
+            {
+                title: "Google镜像站1",
+                description: "Google搜索镜像引擎",
+                link: "https://google.bian666.cf/"
+            },
+            {
+                title: "Google镜像站2",
+                description: "Google搜索镜像引擎",
+                link: "https://g.savalone.com/"
+            },
+            {
+                title: "韩小韩web api接口",
+                description: "支持并维护的 API 接口项目",
+                link: "https://api.vvhan.com/"
+            },
+            {
+                title: "国内IP查询",
+                description: "curl cip.cc",
+                link: "https://cip.cc"
+            },
+            {
+                title: "代理IP查询",
+                description: "curl ip.sb",
+                link: "https://ip.sb/"
+            },
+	    {
+                title: "SMSBoomHtml",
+                description: "短信轰炸web",
+                link: "https://kukuqi666.github.io/sitemap/SMSBoomHtml"
+            },
+	    {
+                title: "shodan",
+                description: "网络端口查询",
+                link: "https://www.shodan.io"
+            },
+	    {
+                title: "loveMove",
+                description: "一个可以输入内容的爱心",
+                link: "https://kukuqi666.github.io/sitemap/loveMove"
+            },
+            {
+                title: "my520",
+                description: "520表白",
+                link: "https://kukuqi666.github.io/sitemap/My520"
+            },
+            {
+                title: "love",
+                description: "浪漫爱心",
+                link: "https://kukuqi666.github.io/sitemap/love"
+            },
+            {
+                title: "baby",
+                description: "送给宝宝的爱心树",
+                link: "https://kukuqi666.github.io/sitemap/baby"
+            },
+            {
+                title: "hua",
+                description: "送给宝宝的玫瑰花",
+                link: "https://kukuqi666.github.io/sitemap/hua"
+            },
+            {
+                title: "birthday",
+                description: "生日快乐",
+                link: "https://kukuqi666.github.io/sitemap/birthday"
+            },
+            {
+                title: "xpcheck",
+                description: "XP检查工具",
+                link: "https://kukuqi666.github.io/sitemap/xpcheck"
+            },
+			{
+                title: "街头霸王",
+                description: "格斗类",
+                link: "https://kukuqi666.github.io/sitemap/street-fighter"
+            },
+			{
+                title: "切水果",
+                description: "娱乐类",
+                link: "https://kukuqi666.github.io/sitemap/cut-fruit"
+            },
+			{
+                title: "坦克大战",
+                description: "射击类",
+                link: "https://kukuqi666.github.io/sitemap/tank-battle"
+            }
+        ];
+
+        function displayResources(filteredResources) {
+            const container = document.querySelector('.container');
+            container.innerHTML = '';
+            filteredResources.forEach(resource => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-title">${resource.title}</div>
+                    <div class="card-description">${resource.description}</div>
+                    <a href="${resource.link}" class="card-link" target="_blank">访问入口</a>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function search() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filteredResources = resources.filter(resource =>
+                resource.title.toLowerCase().includes(query) ||
+                resource.description.toLowerCase().includes(query)
+            );
+            displayResources(filteredResources);
+        }
+
+        window.onload = function() {
+            displayResources(resources);
+        };
+    </script>
+
+</body>
+</html>
