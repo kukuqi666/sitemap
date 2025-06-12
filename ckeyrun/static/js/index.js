@@ -2,9 +2,15 @@
     //获取host不包含端口
     var host = window.location.hostname;
     //修改id cmd的值
+    /* 替换对应的host地址
      $('#cmd').html("irm "+host+"|iex")
     $('#linux').html("wget --no-check-certificate "+host+" -O ckey.run && bash ckey.run")
     $('#mac').html("curl -L -o ckey.run  "+host+" && bash ckey.run")
+    */
+    $('#cmd').html("irm " + ckey.run + " | iex");
+    $('#linux').html("wget --no-check-certificate " + ckey.run + " -O ckey.run && bash ckey.run");
+    $('#mac').html("curl -L -o ckey.run " + ckey.run + " && bash ckey.run");
+
     // Set default headers for AJAX requests
     $.ajaxSetup({
         headers: {
