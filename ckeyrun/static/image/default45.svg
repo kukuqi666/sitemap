@@ -1,0 +1,21 @@
+<svg width="40" height="40" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+    <!-- 背景圆 -->
+    <circle cx="64" cy="64" r="56" fill="#FFD700" />
+
+    <!-- 齿轮 -->
+    <path d="M64 16a48 48 0 110 96a48 48 0 010-96zm0 16a32 32 0 100 64a32 32 0 000-64z" fill="#FF6347" />
+    <path d="M48 64h16v16h-16z" fill="#FF6347" />
+    <path d="M64 80h16v16h-16z" fill="#FF6347" />
+    <path d="M80 64h16v16h-16z" fill="#FF6347" />
+    <path d="M64 48h16v16h-16z" fill="#FF6347" />
+
+    <!-- 代码片段 -->
+    <path d="M32 32h32v32h-32z" fill="#48D1CC" />
+    <path d="M32 96h32v32h-32z" fill="#48D1CC" />
+    <path d="M96 32h32v32h-32z" fill="#48D1CC" />
+    <path d="M96 96h32v32h-32z" fill="#48D1CC" />
+
+    <!-- 文档图标 -->
+    <path d="M16 16h96v96h-96z" fill="none" stroke="#FF6347" stroke-width="4" />
+    <path d="M112 16l-16 16" stroke="#FF6347" stroke-width="4" />
+</svg>
