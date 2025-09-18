@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" fill-rule="evenodd">
+        <!-- Background -->
+        <rect x="1" y="1" width="14" height="14" fill="#F0F0F0" rx="2"/>
+
+        <!-- CSV columns with different colors -->
+        <rect x="2" y="3" width="3" height="10" fill="#FF6B6B" rx="1"/>
+        <rect x="6" y="3" width="3" height="10" fill="#4ECDC4" rx="1"/>
+        <rect x="10" y="3" width="3" height="10" fill="#45B7D1" rx="1"/>
+
+        <!-- CSV Text -->
+        <text x="3.5" y="8.5" font-family="Arial" font-size="4" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">C</text>
+        <text x="7.5" y="8.5" font-family="Arial" font-size="4" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">S</text>
+        <text x="11.5" y="8.5" font-family="Arial" font-size="4" fill="#FFFFFF" text-anchor="middle" dominant-baseline="middle">V</text>
+    </g>
+</svg>

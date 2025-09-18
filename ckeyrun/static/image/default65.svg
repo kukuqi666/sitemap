@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1238px" height="1129px" viewBox="0 0 1238 1129" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>编组 2</title>
+    <defs>
+        <linearGradient x1="19.6772152%" y1="81.3067527%" x2="69.8944726%" y2="47.6602292%" id="linearGradient-1">
+            <stop stop-color="#1A237E" stop-opacity="0.4" offset="0%"></stop>
+            <stop stop-color="#1A237E" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <radialGradient cx="2.80933178%" cy="6.81570713%" fx="2.80933178%" fy="6.81570713%" r="151.492868%" gradientTransform="translate(0.028093,0.068157),scale(1.000000,0.810101),translate(-0.028093,-0.068157)" id="radialGradient-2">
+            <stop stop-color="#FFFFFF" stop-opacity="0.1" offset="0%"></stop>
+            <stop stop-color="#FFFFFF" stop-opacity="0" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="0" fill="none" fill-rule="evenodd">
+        <g id="编组-2" transform="translate(1.000000, 1.000000)">
+            <rect id="frame" stroke="#191313" x="0" y="0" width="1127" height="1127"></rect>
+            <g id="pluginIcon" transform="translate(0.000000, -0.000000)" fill-rule="nonzero">
+                <g id="编组">
+                    <polygon id="路径" fill="#39CEFD" points="900 512.649665 900 512.649665 900 512.649665 557.188841 512.649665 257.188841 811.811174 428.540773 982.730048"></polygon>
+                    <polygon id="路径" fill="#39CEFD" points="171.459227 726.351737 -3.04953964e-14 555.432862 557.188841 -4.93988467e-14 900 -4.93988467e-14"></polygon>
+                    <polygon id="路径" fill="#03569B" points="428.540773 982.730048 557.188841 1110.86572 900 1110.86572 900 1110.86572 600 811.811174"></polygon>
+                    <polygon id="路径" fill="url(#linearGradient-1)" points="428.540773 982.730048 682.832618 894.917535 600 811.811174"></polygon>
+                    <polygon id="矩形" fill="#16B9FD" transform="translate(428.633348, 811.751876) rotate(-45.000000) translate(-428.633348, -811.751876) " points="307.389875 690.508404 549.494722 690.890502 549.87682 932.995349 307.771974 932.613251"></polygon>
+                </g>
+                <path d="M900,512.649665 L600,811.811174 L900,1110.97268 L900,1110.97268 L557.188841,1110.97268 L428.540773,982.730048 L428.540773,982.730048 L257.081545,811.811174 L557.188841,512.649665 L900,512.649665 L900,512.649665 L900,512.649665 Z M557.188841,0 L0,555.432862 L171.459227,726.351737 L900,0 L557.188841,0 Z" id="形状" fill="url(#radialGradient-2)"></path>
+            </g>
+            <polygon id="路径" fill="#EDA200" fill-rule="nonzero" transform="translate(962.303252, 829.119344) rotate(45.000000) translate(-962.303252, -829.119344) " points="975.498312 870.184724 812.303252 964.50952 814.629653 665.479998 942.655049 591.573039 920.08522 774.692815 1112.30325 663.697528 1003.57063 1066.66565"></polygon>
+        </g>
+    </g>
+</svg>

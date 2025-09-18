@@ -1,0 +1,213 @@
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center; /* 让内容居中显示 */
+    align-items: center; /* 垂直居中 */
+    background: url('../img/background.jpg') no-repeat center center fixed; /* 添加背景图 */
+    background-size: cover;
+    font-family: "Arial", sans-serif;
+}
+
+/* 顶部文字置顶样式 */
+.top-text {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* 添加文字阴影 */
+    z-index: 10; /* 置于最上层 */
+    padding: 10px 0;
+    background: rgba(0, 0, 0, 0.3); /* 顶部背景透明度 */
+}
+
+          <style text="text/css">
+                /*实现立体效果*/
+                .img {
+                    width: 50px;
+                    height: 50px;
+                    margin: 0 auto;
+                    transform-style: preserve-3d;
+                    /*设置动画播放样式:动画对象 播放速度 时间 播放次数*/
+                    animation: rotate linear 20s infinite;
+                }
+ 
+                /*实现动画效果*/
+                @-webkit-keyframes rotate { /*sofari chrome*/
+                    from {
+                        transform: rotateX(0deg) rotateY(0deg);
+                    }
+                    to {
+                        transform: rotateX(360deg) rotateY(360deg);
+                    }
+                }
+ 
+                /*图片样式*/
+                .pic {
+                    width: 200px;
+                    height: 200px;
+                    transform: rotateY(0deg) translateZ(100px);
+                }
+            </style>
+            <style type="text/css">
+                /*最外层容器样式*/
+                .wrap {
+                    width: 0px;
+                    height: 0px;
+                    margin: 0px;
+                    position: absolute;
+                }
+ 
+                /*得到立方体效果*/
+                .cube {
+                    width: 50px;
+                    height: 50px;
+                    margin: 0 auto;
+                    transform-style: preserve-3d;
+                    /*设置动画播放样式:动画对象 播放速度 时间 播放次数*/
+                    animation: rotate linear 20s infinite;
+                }
+ 
+                /*动画旋转的方式*/
+                /*得到动画效果*/
+                @-moz-keyframes rotate { /*firefox*/
+                    from {
+                        transform: rotateX(0deg) rotateY(0deg);
+                    }
+                    to {
+                        transform: rotateX(360deg) rotateY(360deg);
+                    }
+                }
+ 
+                @-webkit-keyframes rotate { /*sofari chrome*/
+                    from {
+                        transform: rotateX(0deg) rotateY(0deg);
+                    }
+                    to {
+                        transform: rotateX(360deg) rotateY(360deg);
+                    }
+                }
+ 
+                @-o-keyframes rotate { /*opera*/
+                    from {
+                        transform: rotateX(0deg) rotateY(0deg);
+                    }
+                    to {
+                        transform: rotateX(360deg) rotateY(360deg);
+                    }
+                }
+ 
+                /*每张图片的样式*/
+                .cube div {
+                    position: absolute;
+                    width: 200px;
+                    height: 200px;
+                    opacity: 0.8;
+                    /*过渡效果*/
+                    transition: all .4s;
+                }
+ 
+                /*定义所有图片样式*/
+                .pic {
+                    width: 200px;
+                    height: 200px;
+                }
+ 
+                .cube .out_front {
+                    transform: rotateY(0deg) translateZ(100px);
+                }
+ 
+                .cube .out_back {
+                    transform: translateZ(-100px) rotateY(180deg);
+                }
+ 
+                .cube .out_left {
+                    transform: rotateY(-90deg) translateZ(100px);
+                }
+ 
+                .cube .out_right {
+                    transform: rotateY(90deg) translateZ(100px);
+                }
+ 
+                .cube .out_top {
+                    transform: rotateX(90deg) translateZ(100px);
+                }
+ 
+                .cube .out_bottom {
+                    transform: rotateX(-90deg) translateZ(100px);
+                }
+ 
+                /*定义小正方体样式*/
+                .cube span {
+                    display: block;
+                    width: 100px;
+                    height: 100px;
+                    position: absolute;
+                    top: 50px;
+                    left: 50px;
+                }
+ 
+                .cube .in_pic {
+                    width: 100px;
+                    height: 100px;
+                }
+ 
+                .cube .in_front {
+                    transform: rotateY(0deg) translateZ(50px);
+                }
+ 
+                .cube .in_back {
+                    transform: translateZ(-50px) rotateY(180deg);
+                }
+ 
+                .cube .in_left {
+                    transform: rotateY(-90deg) translateZ(50px);
+                }
+ 
+                .cube .in_right {
+                    transform: rotateY(90deg) translateZ(50px);
+                }
+ 
+                .cube .in_top {
+                    transform: rotateX(90deg) translateZ(50px);
+                }
+ 
+                .cube .in_bottom {
+                    transform: rotateX(-90deg) translateZ(50px);
+                }
+ 
+                /*鼠标移入后样式*/
+                .cube:hover .out_front {
+                    transform: rotateY(0deg) translateZ(200px);
+                }
+ 
+                .cube:hover .out_back {
+                    transform: translateZ(-200px) rotateY(180deg);
+                }
+ 
+                .cube:hover .out_left {
+                    transform: rotateY(-90deg) translateZ(200px);
+                }
+ 
+                .cube:hover .out_right {
+                    transform: rotateY(90deg) translateZ(200px);
+                }
+ 
+                .cube:hover .out_top {
+                    transform: rotateX(90deg) translateZ(200px);
+                }
+ 
+                .cube:hover .out_bottom {
+                    transform: rotateX(-90deg) translateZ(200px);
+                }
+            </style>

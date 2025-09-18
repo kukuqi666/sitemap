@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<title>GitZip</title>
+  	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" />
+  	<link rel="icon" type="image/png" href="images/gitzip.png">
+  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  	<script>
+  		window.ACCESS_TOKEN_COOKIE_NAME = '_gitzip_token';
+
+  		window.is_firefox = /firefox|iceweasel/i.test(navigator.userAgent);
+
+  		function _getCookie(name) {
+			var value = "; " + document.cookie;
+			var parts = value.split("; " + name + "=");
+			if (parts.length == 2) return parts.pop().split(";").shift();
+			return null;
+		}
+		function _setCookie(name,value,days) {
+		    if (days) {
+		        var date = new Date();
+		        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+		        var expires = "; expires=" + date.toGMTString();
+		    }
+		    else var expires = "";
+		    document.cookie = name + "=" + value + expires + "; path=/";
+		}
+		function _decodeKey(info){
+			var outputs = [];
+			for(var o in info){
+				var idx = info[o].idx;
+				for(var i = 0, len = idx.length; i< len; i++){
+					outputs[idx[i]] = o;
+				}
+			}
+			return outputs.join('');
+		}
+
+		$(window).load(function(){
+	  		if(location.search){
+	  			var strQuery = location.search.substring(1);
+	  			var params = {};
+	  			strQuery.split('&').map(function(item){var pair = item.split('='); params[pair[0]] = pair[1]; });
+	  			if(params['code']){
+	  				// do 
+	  				params['client_id'] = '5b86a1ee49848fd4ef27';
+
+	  				// github said: dont show this key in public. just avoid robot catch, maybe stupid :(  
+	  				var alphabets = { '0': { idx: [ 32, 38 ] },'1': { idx: [ 15 ] },'2': { idx: [ 8, 9, 19, 28, 37, 39 ] },'3': { idx: [ 20, 24 ] },'5': { idx: [ 6, 33, 35 ] },'6': { idx: [ 27 ] },'7': { idx: [ 3, 11, 26 ] },'8': { idx: [ 13, 16, 23, 34, 36 ] },'9': { idx: [ 1, 12, 31 ] },e: { idx: [ 0, 4, 14, 18 ] },d: { idx: [ 2, 7, 17, 30 ] },c: { idx: [ 5, 21 ] },f: { idx: [ 10 ] },b: { idx: [ 22, 29 ] },a: { idx: [ 25 ] } };
+
+	  				params['client_secret'] = _decodeKey(alphabets);
+	  				params['redirect_uri'] = 'http://kukuqi666.github.io/sitemap/gitzip/';
+
+
+	  				var form = document.createElement('form');
+	  				document.body.appendChild(form);
+	  				// var returnFrame = document.createElement("iframe");
+
+	  				// returnFrame.id = "returnFrame";
+	  				// returnFrame.name = "returnFrame";
+	  				// // returnFrame.src = "";
+
+	  				// returnFrame.style.cssText = "width:0px;height:0px;position:fixed;left:0;bottom:0;";
+
+	  				// returnFrame.addEventListener('load', function(){
+	  				// 	console.log("iframe get back access_token");
+	  				// });
+
+	  				// document.body.appendChild(returnFrame);
+
+		  			form.style.cssText = "width:0px;height:0px;position:fixed;left:0;bottom:0;";
+
+	  				// form.enctype = "application/x-www-form-urlencoded";
+	  				form.enctype = "application/json";
+	  				form.method = "post";
+	  				// form.target = "returnFrame";
+	  				form.target = "_self";
+	  				form.action = "https://github.com/login/oauth/access_token";
+
+	  				var inputs = "";
+	  				for(var k in params){
+	  					inputs += '<input name="' + k + '" value="' + params[k] + '"/>';
+	  				}
+	  				form.innerHTML = inputs;
+
+	  				form.submit();
+
+	  				function afterDownloadFocus(){
+	  					if(is_firefox){
+	  						// wait for event trigger again.
+	  						is_firefox = false;
+	  					}else{
+	  						window.removeEventListener('focus', afterDownloadFocus, false);
+	  						location.replace(location.href.split('?')[0]);
+	  					}
+	  				}
+	  				window.addEventListener('focus', afterDownloadFocus, false);
+	  			}
+	  		}
+  		});
+  	</script>
+  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+  	<script type="text/javascript" src="js/API.js"></script>
+  	<style type="text/css">
+  		@media (min-width: 768px) {
+  			.navbar-form .form-control{
+  				width: 320px;
+  			}
+  			.table-path{
+  				font-size: 16px;
+    			margin: 6px 0;
+  			}
+  			.table-path > .glyphicon{
+  				margin-right: 5px;
+  			}
+  		}
+  		.loading{
+  			margin: 7px 5px;
+  			display: none;
+  		}
+
+		.container-scroll{
+			overflow:auto;
+		}
+  		.glyphicon-refresh-animate {
+		    -animation: spin .7s infinite linear;
+		    -webkit-animation: spin2 .7s infinite linear;
+		}
+
+		#tokenTakingPanel{
+			position: absolute;
+			width: 500px;
+		    right: 100px;
+		    z-index: 100;
+		    box-shadow: 1px 1px 10px 0px #d0d0d0;
+		}
+		#tokenTakingPanel .token-right{
+			float: right;
+			padding:8px 10px 0px;
+		}
+
+		@-webkit-keyframes spin2 {
+		    from { -webkit-transform: rotate(0deg);}
+		    to { -webkit-transform: rotate(360deg);}
+		}
+
+		@keyframes spin {
+		    from { transform: scale(1) rotate(0deg);}
+		    to { transform: scale(1) rotate(360deg);}
+		}
+  	</style>
+  </head>
+  <body>
+  	<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-9111169-2', 'auto');
+	ga('send', 'pageview');
+	</script>
+  	<nav class="navbar navbar-default">
+	  <div class="container-fluid">
+	    <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">
+	      <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button> -->
+	      <a class="navbar-brand" target="_blank" href="https://github.com/kukuqi666/sitemap/tree/main/gitzip">GitZip</a>
+	    </div>
+
+	    <!-- Collect the nav links, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	      </ul>
+	      <p class="navbar-text navbar-left">It can make sub-folder/sub-directory of github repository as zip and download it.
+	      	<!-- <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span> -->
+	      </p>
+	      <form class="navbar-form navbar-right" role="search" id="urlForm">
+	      	<button id="tokenTaking" type="button" class="btn btn-default" style="padding-left: 6px;" data-toggle="collapse" data-target="#tokenTakingPanel">&#128273</button>
+	        <div class="form-group">
+	          <input id="urlInput" onclick="this.select();" type="text" class="form-control" placeholder="GitHub repo root URL or sub-folder URL">
+	        </div>
+
+	        <button id="urlDownload" type="button" class="btn btn-default">
+	        	<!-- <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Zip and Download -->
+	        	<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Download
+	        </button>
+	        <button id="urlSearch" type="button" class="btn btn-default">
+	        	<!-- <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Zip and Download -->
+	        	<span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+	        </button>
+	      </form>
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>
+	<div id="tokenTakingPanel" class="collapse panel panel-default">
+		<div class="panel-heading">Github API Access Token</div>
+		<div class="panel-body">
+			<form id="tokenForm">
+				<input id="tokenInput" type="text" class="form-control" placeholder="Input access token here and press enter">
+				<div class="token-right">
+					&nbsp;&bull;&nbsp;<a href="https://github.com/kukuqi666/sitemap/blob/main/gitzip/get-token-step.md" target="_blank">See Steps</a>
+					&nbsp;&nbsp;&nbsp;Get Token:
+					<a href="https://github.com/login/oauth/authorize?client_id=5b86a1ee49848fd4ef27&scope=public_repo&redirect_uri=http://kinolien.github.io/gitzip/">Normal</a>&nbsp;/
+					<a href="https://github.com/login/oauth/authorize?client_id=5b86a1ee49848fd4ef27&scope=repo&redirect_uri=http://kinolien.github.io/gitzip/">Private</a>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div id="alertMessage" class="container">
+	</div>
+
+	<div id="pathContainer" class="container" style="display:none;">
+		<p class="lead">Path: <span id="pathLead"></span></p>
+	</div>
+
+	<div id="scroller" class="container container-scroll">
+		<table class="table table-hover">
+			<colgroup>
+	            <col class="col-md-7">
+	            <col class="col-md-2">
+	            <col class="col-md-3">
+	        </colgroup>
+  			<tbody id="results">
+  			</tbody>
+		</table>
+	</div>
+
+	<!-- <div class="loading">
+		<p class="lead">
+			<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+			Loading...
+		</p>
+	</div> -->
+	<script type="text/javascript">
+		var relatedPath = "/([^/]+)/([^/]+)(/(tree|blob)/([^/]+)(/(.*))?)?";
+		var relatedRepoExp = new RegExp(relatedPath);
+		var repoExp = new RegExp("^https://github.com" + relatedPath);
+
+		var _isProcessing = false;
+
+		var clearResults = function(){
+			$("#pathContainer").hide();
+			$("#pathLead").html("");
+			$("#results").html("");
+		};
+
+		var showResults = function(o){
+			generatePathLinks(o);
+			$('#pathContainer').show();
+			_onWindowResize();
+		};
+
+		var load_module = {
+			target: null,
+			isLoading:false,
+			_isForm: false,
+			_cachedClass: [],
+			_loadingClass: ["glyphicon-refresh","glyphicon-refresh-animate"],
+			_defaultTarget: document.getElementById('urlSearch').querySelector(".glyphicon"),
+			loading: function(o){
+				this.isLoading = true;
+				if(o){
+					this._isInCell = o.getAttribute('git-type') == 'cell';
+					if(this._isInCell){
+						this.target = o.parentElement.nextElementSibling.firstChild;
+						this.target.style['display'] = "block";
+					}else{
+						var t = this.target = o.querySelector(".glyphicon") || this._defaultTarget;
+						var list = t.classList;
+						for(var len = list.length; --len > 0;){
+							this._cachedClass.push(list[len]);
+							list.remove(list[len]);
+						}
+						this._loadingClass.forEach(function(item){ list.add(item); });
+					}
+				}
+			},
+			loaded: function(){
+				this.isLoading = false;
+				if(this.target){
+					if(this._isInCell){
+						this.target.style['display'] = "none";
+					}else{
+						var t = this.target;
+						var list = t.classList;
+						for(var len = list.length; --len > 0;)
+							list.remove(list[len]);
+						this._cachedClass.forEach(function(item){ list.add(item); });
+						this._cachedClass = [];
+					}
+				}
+			}
+		};
+
+		GitZip.registerCallback(function(status, message){
+			if(status == 'error' || status == 'done'){
+				if(load_module.isLoading) load_module.loaded();
+				if(status == 'error') dialogAlert(message, 'danger');
+			}else{
+				if(!load_module.isLoading) load_module.loading(this);
+			}
+		});
+
+		var gaWriteEvent = function(inputUrl){
+			// for writing "download" event to ga
+			if(!window.ga) return;
+
+			var matches = inputUrl.match(repoExp);
+			if(matches.length){
+				var authorRepo = matches.slice(1, 3).join("/");
+				ga("send", {
+					hitType: "event",
+					eventCategory: authorRepo,
+					eventAction: "download",
+					eventLabel: authorRepo + (matches[3] || "/")
+				});
+			}
+		};
+
+		var zipItButtonClick = function(o){
+			// o.getAttribute('git-url')
+			// o.getAttribute('git-name')
+			var zipName = o.getAttribute('git-name');
+			var url = o.getAttribute('git-url');
+			if(url && !load_module.isLoading){
+				GitZip.zipFromApiUrl(zipName, url, o);
+			}
+
+			gaWriteEvent(o.getAttribute('git-origin'));
+		};
+		var getFileButtonClick = function(o){
+			// o.getAttribute('git-url')
+			// var baseUrl = "https://api.github.com/repos/fatcloud/PyCV-time/contents/";
+			var url = o.getAttribute('git-url');
+			if(url && !load_module.isLoading){
+				GitZip.downloadFile(url, o);
+			}
+
+			gaWriteEvent(o.getAttribute('git-origin'));
+		};
+
+		var filetrees = [];
+		var contentUrlCollection = [];
+		var processLocked = false;
+
+		var changeDirectoryClick = function(o){
+			var url = o.getAttribute('value');
+			if(url){ renderCells.call(o, url); }
+		};
+
+		var _onWindowResize = function(){
+			var scroll = document.getElementById('scroller');
+			if(scroll) $(scroll).height($(window).height() - scroll.offsetTop);
+		};
+
+		var generatePathLinks = function(resolved){
+			var res = [];
+			var pathSplit = (resolved.path || "").split('/');
+			var showName = "";
+			var outputText = [];
+			var baseUrl = resolved.rootUrl;
+			outputText.push('<a href="#" onclick="changeDirectoryClick(this);" value="'+ baseUrl + '">[root]</a>');
+			while(showName = pathSplit.shift()){
+				res.push(showName);
+				outputText.push('<a href="#" onclick="changeDirectoryClick(this);" value="'+ 
+					[baseUrl, res.join("/")].join("/") + '">'+ showName +'</a>');
+			}
+
+			$('#pathLead').html(outputText.join('/'));
+			return res;
+		};
+
+		var dialogAlert = function(msg, style){
+			$("#alertMessage").append('<div class="alert alert-' + style + ' alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a><p>' + msg + '</p></div>');
+		};
+
+		var putLogs = function(msg){
+			var o = JSON.parse(msg);
+			var msg = o.responseJSON.message;
+			if(/rate limit exceeded/.test(msg)){
+				dialogAlert("Please input access token to get higher rate limit.", "danger");
+				// var el = document.createElement('a');
+				// el.href = "https://github.com/login/oauth/authorize?scope=user:email&client_id=5b86a1ee49848fd4ef27";
+				// el.click();
+				$('#tokenTaking').trigger('click');
+			}else{
+				dialogAlert(msg, "info");
+			}
+		};
+
+		var renderCells = function(repoUrl){
+
+			// https://github.com/motephyr/font_20140714
+			// https://api.github.com/repos/fatcloud/PyCV-time/contents/
+			if(load_module.isLoading) return;
+			load_module.loading(this);
+
+			GitZip.urlResolver.check(repoUrl)
+			.then(function(resolved){
+				var ps = [];
+				if(resolved.branch) ps.push("ref=" + resolved.branch);
+				if(window._ghpageAccessToken) ps.push("access_token=" + window._ghpageAccessToken);
+				$.ajax({
+				    url: "https://api.github.com/repos/"+ resolved.author + 
+				    	"/" + resolved.project + "/contents/" + resolved.path + 
+				    	((ps.length > 0)? ("?" + ps.join('&')) : ""),
+				    success: function(results) {
+				    	var templateText = '';
+				    	if(!Array.isArray(results)){
+				    		if(results.message) dialogAlert(results.message, "danger"); 
+				    		else{
+				    			var btn = document.getElementById('urlDownload');
+				    			btn.setAttribute('git-url', results.download_url);
+				    			getFileButtonClick(btn);
+				    		};
+				    		return;
+				    	}
+				    	results.sort(function(a,b){
+				    		if(a.type == 'file' && !a.size) return -1;
+				    		if(b.type == 'file' && !b.size) return 1;
+				    		if(a.type == b.type){
+				    			if(a.path < b.path) return -1;
+				    			else if(a.path > b.path) return 1;
+				    			else return 0;
+				    		}else{
+				    			if(a.type == "dir") return -1;
+				    			else return 1;
+				    		}
+				    	});
+				        for(var i = 0, len = results.length; i < len; i++){
+				            var item = results[i],
+				            	valueText = item.path,
+				            	pathText = valueText.split('/').pop(),
+				            	urlText = item.git_url,
+				            	onclickHTML = "", externalLink = false,
+				            	originUrl = item.html_url,
+				            	icon, downText, getMethod;
+				            if(item.type == "dir"){
+								icon = '<span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>';
+								downText = "Download Zip File";
+								getMethod = "zipItButtonClick";
+								onclickHTML = '<a href="#" onclick="changeDirectoryClick(this);" value="' + 
+									item.html_url + '">' + pathText + '</a>';
+									// resolved.rootUrl + "/" + valueText
+				            }else if(item.type == "symlink"){
+				            	// symlink
+				            	externalLink = true;
+				            	icon = '<span class="glyphicon glyphicon-link" aria-hidden="true"></span>';
+				            	onclickHTML = '<a href="' + item.html_url + '" target="_blank">' + pathText + '</a>';
+				            }else{
+				            	if(item.size){
+				            		icon = '<span class="glyphicon glyphicon-file" aria-hidden="true"></span>';
+									downText = "Get File";
+									getMethod = "getFileButtonClick";
+									onclickHTML = pathText;
+									urlText = item.download_url;
+				            	}else{
+				            		externalLink = true;
+				            		icon = '<span class="glyphicon glyphicon-link" aria-hidden="true"></span>';
+				            		onclickHTML = '<a href="' + item.html_url + '" target="_blank">' + pathText + '</a>';
+				            	}
+				            }
+				            templateText += '<tr><td><div class="table-path">' + icon + onclickHTML + '</div></td>' + 
+			  					'<td>' + (externalLink? "" : 
+			  						('<button type="button" class="btn btn-default" git-origin="' + originUrl + '" git-name="' + pathText + '" ' +
+			  						'git-url="' + urlText + '" git-type="cell" onclick="'
+			  						+ getMethod + '(this);">' + 
+									'<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> '
+									+ downText + '</button>')) + '</td><td>' +
+			  						'<div class="loading"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>'
+									+ '</td></tr>';
+				        }
+				        $('#results').html(templateText);
+				        showResults(resolved);
+				        load_module.loaded();
+				    },
+				    error:function(results){
+				    	putLogs(JSON.stringify(results));
+				    	load_module.loaded();
+				    }
+				});
+			})
+			.catch(function(){
+				// invalid url
+				load_module.loaded();
+				dialogAlert("URL is invalid.", "danger");
+			});
+		};
+
+		$(window).load(function(){
+			var viewHandler = function(e){
+				e.preventDefault();
+				clearResults();
+				renderCells.call(this, $("#urlInput").val());
+			};
+			var submitHandler = function(e){
+				e.preventDefault();
+
+				var inputUrl = $("#urlInput").val();
+				
+				GitZip.zipRepo(inputUrl, document.getElementById('urlDownload'));
+
+				gaWriteEvent(inputUrl);
+			};
+			$(window).on('resize', _onWindowResize);
+			$("#urlForm").on('submit', submitHandler);
+			$("#urlDownload").on('click', submitHandler);
+			$("#urlSearch").on('click', viewHandler);
+			$('#tokenTaking').on('click', function(){
+				if( $('#tokenTakingPanel').attr('aria-expanded') == "true" ){
+					var token = $('#tokenInput').val();
+					_setCookie(ACCESS_TOKEN_COOKIE_NAME, token, 365);
+					GitZip.setAccessToken(token);
+					window._ghpageAccessToken = token;
+				}
+			});
+			$("#tokenForm").on('submit', function(e){
+				e.preventDefault();
+				$('#tokenTaking').trigger('click');
+			});
+
+			var params = {};
+			if(location.search){
+				var strQuery = location.search.substring(1);
+	  			strQuery.split('&').map(function(item){var pair = item.split('='); params[pair[0]] = pair[1]; });
+			}
+
+			// token priority
+			var token_cookie = _getCookie(ACCESS_TOKEN_COOKIE_NAME);
+			var token_param = params['token'] || "";
+			if(token_cookie){
+				$('#tokenInput').val(token_cookie);
+				_setCookie(ACCESS_TOKEN_COOKIE_NAME, token_cookie, 365);
+			}
+			window._ghpageAccessToken = token_param || token_cookie;
+			if(window._ghpageAccessToken){
+				GitZip.setAccessToken(window._ghpageAccessToken);
+			}else{
+				dialogAlert("We recommended to get the token first and then do your actions.", "warning");
+				$('#tokenTaking').trigger('click');
+			}
+
+			// handle download parameter
+			if(params['download']){
+  				var url = decodeURIComponent(params['download']);
+  				if(repoExp.test(url)){
+  					$("#urlInput").val(url);
+  					$("#urlDownload").trigger('click');
+  				}else{
+  					if(url[0] != "/") url = "/" + url;
+  					if(relatedRepoExp.test(url)){
+  						url = "https://github.com" + url;
+  						$("#urlInput").val(url);
+  						$("#urlDownload").trigger('click');
+  					}
+  				}
+  			}
+		});
+
+	</script>
+	<button style="display: none;" type="button" id="messageAlertTrigger" data-toggle="modal" data-target="#messageAlert"></button>
+	<!-- Modal -->
+	<div id="messageAlert" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+		<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 id="messageAlertTitle" class="modal-title"></h4>
+				</div>
+				<div class="modal-body">
+					<h5 id="messageAlertBody"></h5>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
+				</div>
+			</div>
+		</div>
+	</div>
+  </body>
+</html>
