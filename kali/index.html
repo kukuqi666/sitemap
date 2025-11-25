@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>js视频播放器</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+
+        :root {
+            --bg: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --accent: #00e5ff;
+            --accent-hover: #00b8d4;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            background-attachment: fixed;
+            color: var(--text-primary);
+            margin: 0;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+        }
+
+        .directory-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .directory-item {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            overflow: hidden;
+        }
+
+        .directory-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            border-color: var(--accent);
+        }
+
+        .directory-item a {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .directory-item a::before {
+            content: "🎥";
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .directory-item:hover a::before {
+            transform: scale(1.2);
+        }
+
+        .directory-item:hover a {
+            color: var(--accent);
+        }
+
+        .directory-item a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .directory-item:hover a::after {
+            width: 100%;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .directory-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>kali部分工具工具演示</h1>
+        <div class="directory-list">
+            <div class="directory-item"><a href="commix/">commix</a></div>
+            <div class="directory-item"><a href="dmitry/">dmitry</a></div>
+            <div class="directory-item"><a href="dnsrecon/">dnsrecon</a></div>
+            <div class="directory-item"><a href="goofile/">goofile</a></div>
+            <div class="directory-item"><a href="ident-user-enum/">ident-user-enum</a></div>
+            <div class="directory-item"><a href="lbd/">lbd</a></div>
+            <div class="directory-item"><a href="masscan/">masscan</a></div>
+            <div class="directory-item"><a href="metasploit-framework/">metasploit-framework</a></div>
+            <div class="directory-item"><a href="nbtscan-unixwiz/">nbtscan-unixwiz</a></div>
+            <div class="directory-item"><a href="parsero/">parsero</a></div>
+            <div class="directory-item"><a href="termineter/">termineter</a></div>
+            <div class="directory-item"><a href="twofi/">twofi</a></div>
+            <div class="directory-item"><a href="urlcrazy/">urlcrazy</a></div>
+            <div class="directory-item"><a href="wifiphisher/">wifiphisher</a></div>
+        </div>
+        <div class="footer">
+            Total: 14 videos
+        </div>
+    </div>
+</body>
+</html>
