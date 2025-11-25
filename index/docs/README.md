@@ -142,16 +142,22 @@ title: 网址导航
     author="最全的文案代码资源库" 
   />
   <Card 
-    cover="https://gitee.com/kukuqi666/images/raw/master/123.jpg" 
+    cover="https://gitee.com/kukuqi666/images/raw/master/13.jpg" 
     link="https://kukuqi666.github.io/sitemap/girl" 
     title="网页视频" 
     author="随机舞蹈视频"
   />
+    <Card 
+    cover="https://gitee.com/kukuqi666/images/raw/master/123.jpg" 
+    link="https://kukuqi666.github.io/sitemap/kali" 
+    title="kali" 
+    author="kali工具视频演示"
+  />
 </a-row>
-  
-  
+
+
 ## 其他工具  
-  
+
 <a-row :gutter="[32, 32]">
   <Card 
     cover="https://gitee.com/kukuqi666/images/raw/master/32.jpg" 
